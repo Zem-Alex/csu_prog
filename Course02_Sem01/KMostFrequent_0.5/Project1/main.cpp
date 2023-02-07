@@ -1,0 +1,225 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <random>
+#include <time.h>
+#include <SFML/Graphics.hpp>
+#include "button.hpp"
+#include "random.hpp"
+#include <cassert>
+
+int main()
+{
+    srand(time(0));
+    int * nums = new int [LENGTH];
+    int map[10] = { 0 };
+
+    sf::Font font;
+    if (!font.loadFromFile("arial.ttf"))
+        return -1;
+
+    Button btn1("Srand", { 350, 100 }, 30, sf::Color(255, 70, 70), sf::Color::Black);
+    btn1.setFont(font); btn1.setPosition({ 100, 50 });
+
+    Button btn2("random_device", { 350, 100 }, 30, sf::Color(70, 255, 70), sf::Color::Black);
+    btn2.setFont(font); btn2.setPosition({ 100, 200 });
+
+    Button btn3("uniform_int_distribution", { 350, 100 }, 30, sf::Color(70, 70, 255), sf::Color::Black);
+    btn3.setFont(font); btn3.setPosition({ 100, 350 });
+
+    Button btn4("mt19937", { 350, 100 }, 30, sf::Color(255, 70, 255), sf::Color::Black);
+    btn4.setFont(font); btn4.setPosition({ 100, 500 });
+
+    sf::RectangleShape rectangle[10];
+
+    PRNG generator;
+
+    initGenerator(generator);
+
+    std::random_device rd;
+    std::mt19937 rnd(4321);
+    std::uniform_int_distribution<> distrib(0, 9);
+
+
+    while (window.isOpen())
+    {
+        sf::Event Event;
+        while (window.pollEvent(Event))
+        {
+            switch (Event.type) 
+            {
+            case sf::Event::Closed:
+                window.close();
+            case sf::Event::MouseMoved:
+                if (btn1.isMouseOver(window)) 
+                    btn1.setBackColor(sf::Color(255, 100, 100));
+                else 
+                    btn1.setBackColor(sf::Color(255, 70, 70));
+                if (btn2.isMouseOver(window)) 
+                    btn2.setBackColor(sf::Color(100, 255, 100));
+                else 
+                    btn2.setBackColor(sf::Color(70, 255, 70));
+                if (btn3.isMouseOver(window)) 
+                    btn3.setBackColor(sf::Color(100, 100, 255));
+                else 
+                    btn3.setBackColor(sf::Color(70, 70, 255));
+                if (btn4.isMouseOver(window)) 
+                    btn4.setBackColor(sf::Color(255, 100, 255));
+                else 
+                    btn4.setBackColor(sf::Color(255, 70, 255));
+                break;
+            case sf::Event::MouseButtonPressed:
+                if (btn1.isMouseOver(window)) 
+                {
+                    for (int i = 0; i < 10; i++)
+                        map[i] = 0;
+                    for (int i = 0; i < LENGTH; i++)
+                        nums[i] = rand() % 10;
+                    topKFrequent(nums, map);
+                }
+                if (btn2.isMouseOver(window))
+                {
+                    for (int i = 0; i < 10; i++)
+                        map[i] = 0;
+                    for (int i = 0; i < LENGTH; ++i)
+                        nums[i] = random(generator, 0, 9);
+                    topKFrequent(nums, map);
+                }
+
+                if (btn3.isMouseOver(window))
+                {
+                    for (int i = 0; i < 10; i++)
+                        map[i] = 0;
+                    for (int i = 0; i < LENGTH; ++i)
+                        nums[i] = distrib(rnd);
+                    topKFrequent(nums, map);
+                }
+
+                if (btn4.isMouseOver(window))
+                {
+                    for (int i = 0; i < 10; i++)
+                        map[i] = 0;
+                    for (int i = 0; i < LENGTH; ++i)
+                        nums[i] = rnd() % 10;
+                    topKFrequent(nums, map);
+                }
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                rectangle[i].setSize(sf::Vector2f(30, (map[i] % 90000 / 30)*(-1)));
+                rectangle[i].setOutlineColor(sf::Color::Black);
+                rectangle[i].setFillColor(sf::Color::Yellow);
+                rectangle[i].setOutlineThickness(1);
+                rectangle[i].setPosition(600 + 80 * i, 500);
+            }
+        }
+        
+        window.clear(sf::Color(188,188,188));
+        btn1.drawTo(window);
+        btn2.drawTo(window);
+        btn3.drawTo(window);
+        btn4.drawTo(window);
+        for (int i = 0; i < 10; i++)
+            window.draw(rectangle[i]);
+        window.display();
+    }
+
+    delete[] nums;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#include <map>
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//#include <time.h>
+//
+//using namespace std;
+//
+//int main()
+//{
+//    srand((unsigned int)time(0));
+//    map<int, int> m;
+//    multimap<int, int, greater<int>> mm;
+//
+//    for (int i = 0; i < 10; ++i)
+//    {
+//        int v = rand() % 10;
+//        m[v]++;
+//        cout << v << " ";
+//    }
+//    cout << endl;
+//
+//    for (auto v : m)
+//        mm.insert(make_pair(v.second, v.first));
+//
+//    for (auto v : mm)
+//        for (int i = 0; i < v.first; ++i)
+//            cout << v.second << " ";
+//    cout << endl;
+//
+//}
+
+
+//
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//vector<int> topKFrequent(const std::vector<int>& nums, int k);
+//
+//int main()
+//{
+//	vector <int> nums = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+//    int k = 3;
+//
+//    topKFrequent(nums, k);
+//
+//	return 0;
+//}
+//
+//vector<int> topKFrequent(const std::vector<int>& nums, int k)
+//{
+//    int map[10] = { 0 };
+//
+//    int nums_len = nums.size();
+//
+//    for (int i = 0; i < nums_len; i++)
+//    {
+//        map[nums[i]]++;
+//    }
+//
+//    for (int i = 0; i < 10; i++)
+//    {
+//        if (map[i])
+//            cout << "'" << i << "': " << map[i] << endl;
+//    }
+//
+//
+//
+//    return nums;
+//}

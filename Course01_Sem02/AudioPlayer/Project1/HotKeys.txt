@@ -1,0 +1,72 @@
+///
+        ///
+        /// Hot keys for some functions
+        /// 
+        /// 
+        UpdateMusicStream(music);
+
+        if(i == 0)
+            PauseMusicStream(music);
+
+        if (IsKeyPressed(KEY_SPACE))
+        {
+            timePlayed = 0;
+            StopMusicStream(music);
+            PlayMusicStream(music);
+        }
+
+        if (IsKeyPressed(KEY_P))
+        {
+            pause = !pause;
+
+            if (pause) PauseMusicStream(music);
+            else ResumeMusicStream(music);
+        }
+
+        if (IsKeyPressed(KEY_LEFT))
+        {
+            timePlayed = 0;
+            SeekMusicStream(music, GetMusicTimePlayed(music)-5);
+        }
+
+        if (IsKeyPressed(KEY_RIGHT))
+        {
+            timePlayed = 0;
+            SeekMusicStream(music, GetMusicTimePlayed(music) + 5);
+        }
+
+        if (IsKeyPressed(KEY_S))
+        {
+            speedFlag -= 0.25;
+            SetMusicPitch(music, speedFlag);
+        }
+
+        if (IsKeyPressed(KEY_N))
+        {
+            SetMusicVolume(music, 0.5);
+            SetMusicPitch(music, 1);
+        }
+
+        if (IsKeyPressed(KEY_F))
+        {
+            speedFlag += 0.25;
+            SetMusicPitch(music, speedFlag);
+        }
+
+        if (IsKeyPressed('=') && volumeFlag < 0.9)
+        {
+            volumeFlag += 0.1;
+            SetMusicVolume(music, volumeFlag);
+        }
+
+        if (IsKeyPressed('-') && volumeFlag > 0.1)
+        {
+            volumeFlag -= 0.1;
+            SetMusicVolume(music, volumeFlag);
+        }
+
+/* DrawText("SPACE start/restart", 225, 200, 30, GRAY);
+        DrawText("P pause/resume", 270, 230, 30, GRAY);
+        DrawText("+/- louder/quiet", 263, 260, 30, GRAY);
+        DrawText("</> rewind left/right", 240, 290, 30, GRAY);
+        DrawText("F/S/N faster/slower/normal", 215, 320, 30, GRAY);*/

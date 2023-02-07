@@ -1,0 +1,3 @@
+﻿  hw2.c
+C:\Users\79507\Desktop\Папки\Программирование\C\Solution7\Project2\hw2.c(9,20): warning C4013: check: нет определения; предполагается "extern" с возвратом типа "int"
+  Project2.vcxproj -> C:\Users\79507\Desktop\Папки\Программирование\C\Solution7\Debug\Project2.exe

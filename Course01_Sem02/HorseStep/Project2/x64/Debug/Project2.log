@@ -1,0 +1,4 @@
+﻿  AudioPlayer.c
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution2\Project2\AudioPlayer.c(24,16): warning C4026: функция объявлена со списком формальных параметров
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution2\Project2\AudioPlayer.c(35): warning C4716: SDL_main: должна возвращать значение
+  Project2.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution2\x64\Debug\Project2.exe

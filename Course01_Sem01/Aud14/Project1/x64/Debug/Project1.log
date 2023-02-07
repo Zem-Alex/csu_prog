@@ -1,0 +1,5 @@
+﻿  task1.c
+C:\Users\79507\Desktop\Папки\Программирование\C\lesson\Aud14\Project1\task1.c(12,26): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\79507\Desktop\Папки\Программирование\C\lesson\Aud14\Project1\task1.c(14,20): warning C4047: функция: "char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\79507\Desktop\Папки\Программирование\C\lesson\Aud14\Project1\task1.c(14,16): warning C4024: RepeatSymbols: различные типы для формального и фактического параметров 1
+C:\Users\79507\Desktop\Папки\Программирование\C\lesson\Aud14\Project1\task1.c(53,1): fatal error C1071: непредвиденное обнаружение конца файла в комментарии

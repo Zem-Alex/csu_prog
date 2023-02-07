@@ -1,0 +1,41 @@
+int main(void)
+{    
+    Texture2D buttonPlay = LoadTexture("resoursesTexture/buttonPlay.png");
+
+    float frameHeight = (float)buttonPlay.height;
+    Rectangle sourceRecPlay = { 0, 0, (float)buttonPlay.width, frameHeight };
+    Rectangle btnBoundsPlay = { 150, 200, (float)buttonPlay.width, frameHeight };
+    int btnState = 0;
+    bool btnAction = false;
+    while (!WindowShouldClose())
+    {
+        mousePoint = GetMousePosition();
+        btnAction = false;
+        PlayButton(btnAction, btnState, mousePoint, btnBoundsPlay, music);
+
+        BeginDrawing();
+
+        DrawTextureRec(buttonPlay, sourceRecPlay, (Vector2) { btnBoundsPlay.x, btnBoundsPlay.y }, WHITE);
+
+        EndDrawing();
+    }
+    UnloadTexture(buttonPlay);
+}
+
+void PlayButton(bool btnAction, int btnState, Vector2 mousePoint, Rectangle btnBoundsPlay, Music music) 
+{
+    if (CheckCollisionPointRec(mousePoint, btnBoundsPlay))
+    {
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) btnState = 2;
+        else btnState = 1;
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) btnAction = true;
+    }
+    else btnState = 0;
+    if (btnAction)
+    {
+        ResumeMusicStream(music);
+        btnAction = false;
+        btnState = 0;
+    }
+}
+

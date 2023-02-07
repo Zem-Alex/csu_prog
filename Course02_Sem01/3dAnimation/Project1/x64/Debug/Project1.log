@@ -1,0 +1,13 @@
+﻿  main.cpp
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutInit в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutInitDisplayMode в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutInitWindowPosition в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutInitWindowSize в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutMainLoop в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutCreateWindow в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutPostRedisplay в функции "void __cdecl timer(int)" (?timer@@YAXH@Z).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutSwapBuffers в функции "void __cdecl draw(void)" (?draw@@YAXXZ).
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutDisplayFunc в функции main.
+main.obj : error LNK2019: ссылка на неразрешенный внешний символ glutTimerFunc в функции "void __cdecl timer(int)" (?timer@@YAXH@Z).
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\lib\glut32.lib : warning LNK4272: тип компьютера библиотеки "x86" конфликтует с типом целевого компьютера "x64"
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\3dAnimation\x64\Debug\Project1.exe : fatal error LNK1120: неразрешенных внешних элементов: 10

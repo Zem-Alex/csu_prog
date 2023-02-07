@@ -1,0 +1,2 @@
+﻿task5.obj : error LNK2019: ссылка на неразрешенный внешний символ _hidecursor в функции _main.
+C:\Users\79507\Desktop\Папки\Программирование\C\lesson\Aud15\Debug\Project5.exe : fatal error LNK1120: неразрешенных внешних элементов: 1

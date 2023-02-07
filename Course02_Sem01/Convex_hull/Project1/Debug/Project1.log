@@ -1,0 +1,18 @@
+﻿  main.cpp
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\Header.hpp(41,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\Header.hpp(65,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(14,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(37,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(38,50): warning C4244: аргумент: преобразование "__int64" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(38,41): warning C4244: аргумент: преобразование "__int64" в "T", возможна потеря данных
+          with
+          [
+              T=float
+          ]
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(53,57): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Project1\main.cpp(53,38): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+  Project1.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\Convex_hull\Debug\Project1.exe

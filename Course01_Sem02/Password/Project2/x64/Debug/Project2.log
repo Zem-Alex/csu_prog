@@ -1,0 +1,6 @@
+﻿  integersExtraction.c
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution1\Project2\integersExtraction.c(29,18): warning C4473: "fscanf_s": передано недостаточно аргументов для строки формата
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution1\Project2\integersExtraction.c(29,18): message : заполнители и их параметры ожидают переменное число аргументов в количестве 2, но было предоставлено 1
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution1\Project2\integersExtraction.c(29,18): message : отсутствующий вариативный аргумент "2" требуется для строки форматирования "%c"
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution1\Project2\integersExtraction.c(29,18): message : этот аргумент используется в качестве размера буфера
+  Project2.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution1\x64\Debug\Project2.exe

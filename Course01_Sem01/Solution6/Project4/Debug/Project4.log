@@ -1,0 +1,4 @@
+﻿  p4.c
+C:\Users\79507\Desktop\Папки\Программирование\C\Solution6\Project4\p4.c(7,26): warning C4101: arr2: неиспользованная локальная переменная
+C:\Users\79507\Desktop\Папки\Программирование\C\Solution6\Project4\p4.c(7,44): warning C4101: arr3: неиспользованная локальная переменная
+  Project4.vcxproj -> C:\Users\79507\Desktop\Папки\Программирование\C\Solution6\Debug\Project4.exe

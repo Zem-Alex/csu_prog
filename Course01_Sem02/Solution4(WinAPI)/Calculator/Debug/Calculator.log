@@ -1,0 +1,4 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (Calculator.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  main.c
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\Calculator\main.c(140,13): warning C4101: buf: неиспользованная локальная переменная
+  Calculator.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\Debug\0_SysInfo_0.5.exe

@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\findProcesses\main.cpp(32,42): warning C4474: "wprintf" : для строки формата передано слишком много аргументов
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\findProcesses\main.cpp(32,42): message : заполнители и их параметры ожидают переменное число аргументов в количестве 1, но было предоставлено 3
+  findProcesses.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\Debug\findProcesses.exe

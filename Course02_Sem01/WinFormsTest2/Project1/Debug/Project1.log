@@ -1,0 +1,4 @@
+﻿  MyForm.cpp
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\WinFormsTest2\Project1\MyForm.h(134): warning C4700: использована неинициализированная локальная переменная "it"
+  MyForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  Project1.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\WinFormsTest2\Debug\Project1.exe

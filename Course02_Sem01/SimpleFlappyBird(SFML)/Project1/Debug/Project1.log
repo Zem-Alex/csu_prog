@@ -1,0 +1,6 @@
+﻿  main.cpp
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\SimpleFlappyBird(SFML)\Project1\game.hpp(75,34): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\SimpleFlappyBird(SFML)\Project1\main.cpp(11,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\SimpleFlappyBird(SFML)\Project1\main.cpp(52,34): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\SimpleFlappyBird(SFML)\Project1\main.cpp(74,37): warning C4244: аргумент: преобразование "__int64" в "unsigned int", возможна потеря данных
+  Project1.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C++\lessons\Course02_Sem01\SimpleFlappyBird(SFML)\Debug\Project1.exe

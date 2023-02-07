@@ -1,0 +1,3 @@
+﻿  tf.c
+C:\Users\79507\Desktop\Папки\Программирование\C\Solution7\testsfunc\tf.c(7,6): warning C4013: copy: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\79507\Desktop\Папки\Программирование\C\Solution7\testsfunc\tf.c(10,7): error C2371: copy: переопределение; различные базовые типы

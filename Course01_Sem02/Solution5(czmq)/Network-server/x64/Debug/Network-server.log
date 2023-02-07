@@ -1,0 +1,9 @@
+﻿  server.c
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution5(czmq)\Network-server\server.c(31,23): warning C4013: ParsingMessage: нет определения; предполагается "extern" с возвратом типа "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution5(czmq)\Network-server\server.c(33,31): warning C4013: MainOperation: нет определения; предполагается "extern" с возвратом типа "int"
+  SomeFunctions.c
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution5(czmq)\Network-server\SomeFunctions.c(26,18): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution5(czmq)\Network-server\SomeFunctions.c(51,40): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+  Создание кода...
+LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+  Network-server.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution5(czmq)\x64\Debug\Network-server.exe

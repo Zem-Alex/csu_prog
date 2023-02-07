@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/XOR/.idea/XOR.iml" filepath="$USER_HOME$/XOR/.idea/XOR.iml" />
+      <module fileurl="file://$USER_HOME$/ckeckNum/.idea/ckeckNum.iml" filepath="$USER_HOME$/ckeckNum/.idea/ckeckNum.iml" />
+      <module fileurl="file://$USER_HOME$/deleteSymb/.idea/deleteSymb.iml" filepath="$USER_HOME$/deleteSymb/.idea/deleteSymb.iml" />
+      <module fileurl="file://$USER_HOME$/longWords/.idea/longWords.iml" filepath="$USER_HOME$/longWords/.idea/longWords.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pythonProject.iml" filepath="$PROJECT_DIR$/.idea/pythonProject.iml" />
+    </modules>
+  </component>
+</project>

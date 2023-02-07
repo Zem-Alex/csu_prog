@@ -1,0 +1,17 @@
+﻿LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/RELEASE"
+kernel32.lib(KERNEL32.dll) : warning LNK4237: Указан параметр /SUBSYSTEM:NATIVE при импорте из "KERNEL32.DLL"; используйте /SUBSYSTEM:CONSOLE или /SUBSYSTEM:WINDOWS.
+calc.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp_puts в функции main.
+LINK : error LNK2001: неразрешенный внешний символ NtProcessStartup.
+MSVCRTD.lib(init.obj) : error LNK2019: ссылка на неразрешенный внешний символ _CrtDbgReport в функции _CRT_RTC_INIT.
+MSVCRTD.lib(init.obj) : error LNK2019: ссылка на неразрешенный внешний символ _CrtDbgReportW в функции _CRT_RTC_INITW.
+MSVCRTD.lib(error.obj) : error LNK2019: ссылка на неразрешенный внешний символ strcpy_s в функции "void __cdecl _RTC_StackFailure(void *,char const *)" (?_RTC_StackFailure@@YAXPEAXPEBD@Z).
+MSVCRTD.lib(error.obj) : error LNK2019: ссылка на неразрешенный внешний символ strcat_s в функции "void __cdecl _RTC_StackFailure(void *,char const *)" (?_RTC_StackFailure@@YAXPEAXPEBD@Z).
+MSVCRTD.lib(error.obj) : error LNK2019: ссылка на неразрешенный внешний символ __stdio_common_vsprintf_s в функции _vsprintf_s_l.
+MSVCRTD.lib(error.obj) : error LNK2001: неразрешенный внешний символ __C_specific_handler_noexcept.
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ _wmakepath_s в функции "int __cdecl GetPdbDllPathFromFilePath(wchar_t const *,wchar_t *,unsigned __int64)" (?GetPdbDllPathFromFilePath@@YAHPEB_WPEA_W_K@Z).
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ _wsplitpath_s в функции "int __cdecl GetPdbDllPathFromFilePath(wchar_t const *,wchar_t *,unsigned __int64)" (?GetPdbDllPathFromFilePath@@YAHPEB_WPEA_W_K@Z).
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ wcscpy_s в функции "int __cdecl GetPdbDllPathFromFilePath(wchar_t const *,wchar_t *,unsigned __int64)" (?GetPdbDllPathFromFilePath@@YAHPEB_WPEA_W_K@Z).
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ __vcrt_GetModuleFileNameW в функции "struct HINSTANCE__ * __cdecl GetPdbDll(void)" (?GetPdbDll@@YAPEAUHINSTANCE__@@XZ).
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ __vcrt_GetModuleHandleW в функции "struct HINSTANCE__ * __cdecl GetPdbDll(void)" (?GetPdbDll@@YAPEAUHINSTANCE__@@XZ).
+MSVCRTD.lib(pdblkup.obj) : error LNK2019: ссылка на неразрешенный внешний символ __vcrt_LoadLibraryExW в функции "struct HINSTANCE__ * __cdecl GetPdbDll(void)" (?GetPdbDll@@YAPEAUHINSTANCE__@@XZ).
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\lesson\Course01_Sem02\Solution4(WinAPI)\x64\Debug\Calculator.exe : fatal error LNK1120: неразрешенных внешних элементов: 14

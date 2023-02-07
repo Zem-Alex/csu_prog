@@ -1,0 +1,142 @@
+SERVER
+_______________________________________________________________________________________
+#include <zmq.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include <Windows.h>
+
+#pragma comment(lib,"libzmq-mt-sgd-4_3_4.lib")
+#pragma comment(lib,"Ws2_32.lib")
+#pragma comment(lib,"Iphlpapi.lib")
+
+int main(void)
+{
+    //  Socket to talk to clients
+    void* context = zmq_ctx_new();
+    void* responder = zmq_socket(context, ZMQ_REP);
+    int rc = zmq_bind(responder, "tcp://*:5555");
+    assert(rc == 0); // may be for any(thing) errors
+
+    while (1) 
+    {
+        char buffer[21] = {'\0'};
+        zmq_recv(responder, buffer, 21, 0);
+        printf_s("Received '%s'\n", buffer);
+        Sleep(1);          //  Do some 'work'
+
+        /*for (size_t i = 0; i < 21; i++)
+        {
+            printf_s("%c", buffer[i]);
+        }*/
+
+        char FirstStrNum[21] = { '\0' }, SecondStrNum[21] = { '\0' }, c = { '\0' };
+        int FirstIntNum = 0, SecondIntNum = 0; int j = 0, result = 0;
+
+        printf_s("\n");
+        for (size_t i = 0; i < 21; i++)
+        {
+            if (buffer[i] >= '0' && buffer[i] <= '9')
+            {
+                FirstStrNum[i] = buffer[i];
+                //printf_s("FirstString '%c'", FirstStrNum[i]);
+            }
+            else
+            {
+                c = buffer[i];
+                j = i;
+                break;
+            }
+        }
+
+        //printf_s("\n");
+        int savej = j + 1;
+        for (j; j < 21; j++)
+        {
+            if (buffer[j] >= '0' && buffer[j] <= '9')
+            {
+                SecondStrNum[j-savej] = buffer[j];
+                //printf_s("SecondString '%c'", SecondStrNum[j-savej]);
+            }
+        }
+
+        FirstIntNum = atoi(FirstStrNum);
+        //printf_s("\n %d", FirstIntNum);
+
+        SecondIntNum = atoll(SecondStrNum);
+        //printf_s("\n %d", SecondIntNum);
+
+        switch (c)
+        {
+        case '+':
+            result = FirstIntNum + SecondIntNum;
+            break;
+        case '-':
+            result = FirstIntNum - SecondIntNum;
+            break;
+        case '*':
+            result = FirstIntNum * SecondIntNum;
+            break;
+        case '/':
+            result = FirstIntNum / SecondIntNum;
+            break;
+        }
+
+
+        char resultStr[21]; int x = 0;
+
+        _itoa_s(result, resultStr, 20, 10);
+        
+        zmq_send(responder, resultStr, 20, 0);
+    }
+    return 0;
+}
+_______________________________________________________________________________________
+CLIENT
+_______________________________________________________________________________________
+#include <zmq.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+#include <Windows.h>
+
+#pragma comment(lib,"libzmq-mt-s-4_3_4.lib")
+#pragma comment(lib,"Ws2_32.lib")
+#pragma comment(lib,"Iphlpapi.lib")
+
+int main(void)
+{
+    printf("Connecting to server\n Enter the expression(20 symbols - max):\n");
+    void* context = zmq_ctx_new();
+    void* requester = zmq_socket(context, ZMQ_REQ);
+    zmq_connect(requester, "tcp://localhost:5555");
+
+    int request_nbr;
+    for (request_nbr = 0; request_nbr < 10; request_nbr++) {
+        char buffer[21], message[21] = { '\0' };
+        for (size_t i = 0; i < 20; i++)
+        {
+            scanf_s("%c", &message[i], 1);
+            if (message[i] == '\n')
+            {
+                message[i] = '\0';
+                break;
+            }
+                
+        }
+        printf_s("Sending '%s' (%d)\n", message, request_nbr);
+        zmq_send(requester, message, 20, 0); // в примере было 5
+        zmq_recv(requester, buffer, 21, 0);
+        printf("Received '%s' (%d)\n", buffer, request_nbr);
+        /*while (1)
+        {
+            int count = 0;
+            count++;
+        }*/
+    }
+    zmq_close(requester);
+    zmq_ctx_destroy(context);
+    return 0;
+}
+_______________________________________________________________________________________

@@ -1,0 +1,95 @@
+#include "raylib.h"
+
+#define PLAYER_MAX_SCORE 3
+
+typedef struct Player 
+{
+    Vector2 position;
+    Vector2 size;
+    int score;
+} Player;
+
+
+int main(void)
+{
+    // Initialization
+    //---------------------------------------------------------
+    const int screenWidth = 1300;
+    const int screenHeight = 650;
+
+    InitWindow(screenWidth, screenHeight, "Table Hockey");
+
+    Vector2 ballPosition = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+    Vector2 ballSpeed = { -6.0f, -4.0f };
+
+    Player player1 = { 0 }, player2 = { 0 };
+
+    player1.position = (Vector2){ 0 , screenHeight / 2 - 70 };
+    player1.size = (Vector2){ 10, 120 };
+    player1.score = 0;
+
+    player2.position = (Vector2){ player1.position.x + 1290, player1.position.y };
+    player2.size = player1.size;
+    player2.score = player1.score;
+
+    int ballRadius = 15;
+
+    bool pause = false;
+
+    SetTargetFPS(40); 
+
+    while (!WindowShouldClose())
+    {
+
+        if (IsKeyPressed(KEY_SPACE)) 
+            pause = !pause;
+
+        if (IsKeyDown(KEY_W))
+            if(player1.position.y - 15 >= 0)
+                player1.position.y -= 8;
+
+        if (IsKeyDown(KEY_S))
+            if (player1.position.y + 131 <= GetScreenHeight())
+                player1.position.y += 8;
+
+        if (!pause)
+        {
+            ballPosition.x += ballSpeed.x;
+            ballPosition.y += ballSpeed.y;
+
+            // Check walls collision for bouncing 
+            if (((ballPosition.x >= (GetScreenWidth() - ballRadius - 16)) || (ballPosition.x <= ballRadius + 16)) && (ballPosition.y <= player1.position.y + player1.size.y) && (ballPosition.y >= player1.position.y))
+                ballSpeed.x *= -1.f;
+
+
+            if ((ballPosition.y >= (GetScreenHeight() - ballRadius - 16)) || (ballPosition.y <= ballRadius + 16))
+                ballSpeed.y *= -1.f;
+        }
+
+
+
+        BeginDrawing();
+
+        ClearBackground(RED);
+
+        DrawRectangle(0, 8, 1300, 634, BLACK);
+        DrawRectangle(0, 10, 1300, 630, LIGHTGRAY);
+        
+        DrawCircleV(ballPosition, (float)ballRadius + 3.f, BLACK);
+        DrawCircleV(ballPosition, (float)ballRadius, GOLD);
+
+        DrawRectangle(player1.position.x, player1.position.y, player1.size.x, player1.size.y, BLACK);
+        DrawRectangle(player1.position.x, player1.position.y + 3, player1.size.x - 3, player1.size.y - 6, PINK);
+
+        DrawRectangle(player2.position.x, player2.position.y, player2.size.x, player2.size.y, BLACK);
+
+        DrawText(TextFormat("%d \t\t\t\t\t %d", player1.score, player2.score),  500, 100, 60, GRAY);
+        if (pause) DrawText("PAUSED", 350, 200, 30, GRAY);
+
+        EndDrawing();
+    }
+
+    CloseWindow();
+
+    return 0;
+}

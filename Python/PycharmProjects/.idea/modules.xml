@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../BankDeposit/.idea/BankDeposit.iml" filepath="$PROJECT_DIR$/../BankDeposit/.idea/BankDeposit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../CorrectDate/.idea/CorrectDate.iml" filepath="$PROJECT_DIR$/../CorrectDate/.idea/CorrectDate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Leap year/.idea/Leap year.iml" filepath="$PROJECT_DIR$/../Leap year/.idea/Leap year.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PycharmProjects.iml" filepath="$PROJECT_DIR$/.idea/PycharmProjects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SimpleNumbers/.idea/SimpleNumbers.iml" filepath="$PROJECT_DIR$/../SimpleNumbers/.idea/SimpleNumbers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../seasons/.idea/seasons.iml" filepath="$PROJECT_DIR$/../seasons/.idea/seasons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../square/.idea/square.iml" filepath="$PROJECT_DIR$/../square/.idea/square.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,12 @@
+﻿  Password.c
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(40,20): warning C4047: =: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(41,19): warning C4047: ==: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(47,18): warning C4047: =: "char" отличается по уровням косвенного обращения от "char *"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(48,18): warning C4047: !=: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(50,25): warning C4047: =: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(52,18): warning C4047: ==: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(60,26): warning C4047: =: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(61,25): warning C4047: =: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(62,26): warning C4047: =: "char *" отличается по уровням косвенного обращения от "int"
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\Project1\Password.c(33,1): warning C4047: инициализация: "char *" отличается по уровням косвенного обращения от "int"
+  Project1.vcxproj -> C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution1\x64\Debug\Project1.exe

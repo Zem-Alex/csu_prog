@@ -1,0 +1,2 @@
+﻿  AudioPlayer.c
+C:\Users\79507\Dropbox\ПК\Desktop\Папки\Программирование\C\lesson\Course01_Sem02\Solution2\Project2\AudioPlayer.c(2,9): fatal error C1083: Не удается открыть файл включение: SDL.h: No such file or directory,
