@@ -7,13 +7,11 @@
 #include <time.h>
 #include "Header.hpp"
 
-//37:51
-
 int main()
 {
 	srand(time(0));
 	const int n = 10;
-	//cin >> n;
+
 	vector<point2d> points(n);
 
 	sf::ConvexShape polygon;
@@ -52,7 +50,7 @@ int main()
 		{
 			circle[i].setPosition(points[i].x - 3.5, points[i].y - 3.5);
 		}
-		//Sleep(1000);
+
 		window.draw(polygon);
 		for (int i = 0; i < n; i++)
 		{
