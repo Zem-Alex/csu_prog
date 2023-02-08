@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 #For build directory
 build/
+
+*.env*

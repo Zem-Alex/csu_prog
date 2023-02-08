@@ -1,9 +1,10 @@
 import openai
 import telebot
+from Settings import tg_key
+from Settings import AI_key
 
-openai.api_key = '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'
-
-bot = telebot.TeleBot("5729578597:AAGUuAtLArER1IUnz_SDoRweHQSvgd_NnAw")
+openai.api_key = AI_key
+bot = telebot.TeleBot(tg_key)
 @bot.message_handler(func=lambda _: True)
 def handle_message(message):
     response = openai.Completion.create(
