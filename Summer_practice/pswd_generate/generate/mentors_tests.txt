@@ -1,0 +1,82 @@
+Microsoft Windows [Version 10.0.22000.1098]
+(c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe
+xjkgccp
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n
+Error: -n expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 8
+zqbmbxae
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80
+jdrlwlcwrzvecmochfknwzhembziwrczvwnjukjlkckwzlvysmnmlifxeafmsxbqgbkeywcjqizuzuuq
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -n
+Error: -n expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -n 0
+Error: Option -n repeats!
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na
+nfwjxyyseklepzjkltsfqocvgbqfdzkqnffvljpokgdqbohrkkyamdvwqffsgzaftwnmpfxoqznuxqjz
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m
+kemfrteoujnamaheczmcpslmycjyrgqmfjkatkwwwxajlgxotpwifclejtmjrhjtfmmanvsjbxfzuzrt
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m1
+Error: -m1 expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m1 -
+Error: -m1 and -n are incompatible
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -
+rmmvnnuvvqibmxzrhrhfhqscwgdghulboitvztpymcnpxkwarhlnrwieqhixzgtkqftlacleylcsfcff
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a
+Error: -a expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a
+a-aaa----aa-a--aaaaa-a----a-a-aa-aaaa-aaaa---a-a-a-aa--aa---aaa--a-aa--a-a-a-aaa
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -a
+Error: -a expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -a -a
+Error: Option -a repeats!
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -au -a
+Error: -a expects one more argument
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -au -ai
+aa--a---aaa---aaa-aaa--aaa-a-aa---aa---------aaa-aa---a----aa-aaaa---aaaaa----a-
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -au -ai -C
+Error: -C and -a are incompatible
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -a -a -au -ai -Cn
+Error: -C and -a are incompatible
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -ao - -au -ai -Cn
+Error: Unknown character n in command -C
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -ao - -au -ai -Ca
+znhmiavkipqrewbnuoztkoqzdgkeaupthuhdlexedpowyogxiegzjkxazczfgfcuculepxfdmiljmeuy
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -ao - -au -ai -CaA
+gfKTDWmaTVLBDLwLVfgjmXnzWwNgGdMJdXnkQQjpOfdCiyEySFNGfabJStozzHxZYBFaVzKZhRjBrolt
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -n 80 -na -m3 -ao - -au -ai -CaAA
+TCVEFhQVDlvlQxgBVaFmZxCZOJOQAZbRfLQgaOTUTQHJahmrOFdXUIWAbtVnBdVXaSqHSUVtAFvtgdLD
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -m2 4 -m1 2 -na -m3 -ao - -au -ai -CaAA
+AT
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -m2 4 -m1 2 -na -m3 -ao - -au -ai -CaAA
+DN
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -m2 -4 -m1 2 -na -m3 -ao - -au -ai -CaAA
+Error: -m2 argument must be a non negative number
+
+C:\Users\79507\Dropbox\ПК\Desktop\Folders\ProgrammingLanguages\C\practice\generateSol\x64\Debug>generate.exe -m2 -4 -m1 2 -na -m3 -ao - -au -ai -CaAA
