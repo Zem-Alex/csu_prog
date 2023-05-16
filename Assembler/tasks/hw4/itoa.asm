@@ -46,10 +46,65 @@ for4ik_skip_:
 atoi_done:	
     ret
 
+	
+	
+	
 itoa: ; в регистре ax - число, в регистре bx - адрес строки для числа, в регистре si - адрес длины строки для числа
+	push ax
+	push bx
+	push cx
+	push dx
+	push si
+	push di
 
+	mov si, offset snum2 ; загрузить указатель на буфер
+	mov cx, 0 ; количество цифр
+	mov bx, 10 ; основание системы счисления
+
+	itoa_loop:
+	mov dx, 0
+	div bx ; разделить на 10
+	add dl, '0' ; преобразовать остаток в ASCII-цифру
+	mov byte ptr [si], dl ; сохранить цифру в буфере
+
+	inc si ; увеличить указатель на буфер
+	inc cx ; увеличить счетчик цифр
+	cmp ax, 0
+	jnz itoa_loop ; повторять до тех пор, пока частное не станет равным нулю
+
+	mov al, 0 ; количество цифр
+	mov ah, '$' ; нулевой символ окончания строки
+	mov byte ptr [si], ah ; добавить нулевой символ в конец строки
+
+	mov si, offset snum2
+	mov di, cx
+	for_1_:
+		push [si]
+		dec di
+		inc si
+		cmp di, 0
+		jne for_1_
+	mov di, cx
+	mov si, offset snum2
+	for_2_:
+		pop [si]
+		dec di
+		inc si
+		cmp di, 0
+		jne for_2_
+	mov byte ptr [si], ah
+	
+	pop di
+	pop si
+	pop dx
+	pop cx
+	pop bx
+	pop ax
     ret
 
+	
+	
+	
 pcharf: ; в dl до вызова функци помещён код символа
     mov ah, 02h
     int 21h
@@ -97,10 +152,10 @@ start:
     mov si, word ptr [lnum1]
     call atoi
     mov word ptr [num1], di	
-	;add word ptr [num1], 12345
+	add word ptr [num1], 1
 	
 	the_loop:		
-		; Преобразовать целое число в строку ASCII-символов
+		;Преобразовать целое число в строку ASCII-символов
 		mov ax, num1
 		mov cx, 0 ; количество цифр
 		mov bx, 10 ; основание системы счисления
@@ -122,21 +177,18 @@ start:
 		loop int2str_print ; повторять для всех цифр
 	
 	
-    ; mov word ptr [num2], di
-    ; add word ptr [num2], 12345
 
-    ; mov ax, word ptr [num2]
-    ; mov bx, offset snum2
-    ; mov si, offset lnum2
-    ; call itoa
-
-    ; mov cx, word ptr [lnum1]
-    ; mov dx, offset snum1
-    ; call pstrf
-    ; call pnewf
-    ; mov cx, word ptr [lnum2]
-    ; mov dx, offset snum2
-    ; call pstrf
+    mov ax, word ptr [num2]
+    mov bx, offset snum2
+    mov si, offset lnum2
+    call itoa
+	
+    call pnewf
+    
+	; Вывод полученной строки
+	mov ah, 09h
+	mov dx, offset snum2
+	int 21h
 
 	call exit0f
 code ends
