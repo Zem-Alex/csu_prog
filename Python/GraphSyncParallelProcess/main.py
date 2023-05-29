@@ -1,41 +1,38 @@
-import threading
+def is_threshold_graph(graph):
+    # Получаем количество вершин графа
+    num_vertices = len(graph)
 
-# Определение порогового графа
-graph = {
-    1: [],
-    2: [1],
-    3: [1],
-    4: [2, 3],
-    5: [4]
-}
+    # Проверяем каждую вершину графа
+    for i in range(num_vertices):
+        # Счетчик для подсчета ребер, связанных с текущей вершиной
+        edge_count = 0
 
-# Массив для суммирования
-array = [1, 2, 3, 4, 5]
+        # Проверяем каждую вершину, кроме текущей
+        for j in range(num_vertices):
+            # Если есть ребро между вершинами i и j, увеличиваем счетчик
+            if graph[i][j] == 1:
+                edge_count += 1
 
-# Создание словаря блокировок для каждой вершины графа
-lock_dict = {node: threading.Event() for node in graph}
+        # Если количество ребер, связанных с текущей вершиной, не равно 1,
+        # то граф не является пороговым
+        if edge_count != 1:
+            return False
 
-# Функция для суммирования элементов массива
-def sum_elements(start_index, end_index):
-    result = sum(array[start_index:end_index+1])
-    print(f"Sum of elements from index {start_index} to {end_index}: {result}")
-    lock_dict[start_index].set()
+    # Если все вершины удовлетворяют условию, то граф является пороговым
+    return True
 
-# Создание и запуск потоков для каждой вершины графа
-threads = []
-for node in graph:
-    predecessors = graph[node]
-    if len(predecessors) == 0:
-        start_index = 0
-    else:
-        start_index = max(predecessors)
-    end_index = node - 1
-    t = threading.Thread(target=sum_elements, args=(start_index, end_index))
-    threads.append(t)
-    t.start()
+# Пример графа в виде матрицы смежности
+graph = [
+    [0, 1, 0, 0],
+    [1, 0, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1]
+]
 
-# Ожидание завершения всех потоков
-for t in threads:
-    t.join()
+# Проверяем, является ли граф пороговым
+is_threshold = is_threshold_graph(graph)
 
-print("All processes have finished.")
+if is_threshold:
+    print("Граф является пороговым.")
+else:
+    print("Граф не является пороговым.")
