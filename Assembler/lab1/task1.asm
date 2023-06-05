@@ -18,8 +18,9 @@ stack ends
 data segment para public
 str1 db 256 dup(?)
 strnum1 db 256 dup(?)
+stroperation db 1 dup(?)
 strnum2 db 256 dup(?)
-num dw -5       ; число 
+num dw ?       ; число
 num1 dw ?
 num2 dw ?
 error_message_invalid_format db "Error: incorrect string format", 0
@@ -173,20 +174,15 @@ _exit0:
     pop bp
     ret
     
-; int atoi(const char *str)
+; int atoi(const char *str, strlen) 
 ; функция перевода строки в число
 _atoi: 
-    push bp
-    mov bp, sp
-    
-	
-	
-	xor di, di          ; обнуляем регистр с результатом
+    xor di, di          ; обнуляем регистр с результатом
 	mov dx, 10			; будем умножать на 10
     mov cx, si          ; загружаем длину строки
     mov si, bx          ; загружаем адрес строки
 	mov bx, 0
-  atoi_loop:
+atoi_loop:
     mov al, byte ptr [si]   ; загружаем текущий символ строки
     cmp al, 0Dh         ; проверяем, что символ это перенос строки
     jl atoi_done        ; если нет, то переходим к завершению функции
@@ -194,25 +190,19 @@ _atoi:
 	mov bx, cx          ; сохраняем кол-во разрядов
 	cmp cx, 1
 	je for4ik_skip_
-  for4ik_:				; разряды числа
+for4ik_:				; разряды числа
     mul dx              ; умножаем результат на 10
 	mov dx, 10
 	dec bx
 	cmp bx, 1
 	jne for4ik_
-  for4ik_skip_:
+for4ik_skip_:
 
     add di, ax          ; добавляем к результату значение текущей цифры
 	xor ax, ax
     inc si              ; переходим к следующему символу
     loop atoi_loop      ; повторяем до конца строки
 atoi_done:	
-    ret
-	
-	
-	
-    mov sp, bp
-    pop bp
     ret
 
 ; void itoa(int num, char *str)
@@ -321,10 +311,14 @@ _check:
     je check_digit ; Если знак "-", переходим к проверке числа
 
     cmp cl, '0' ; Проверяем, является ли первый символ цифрой
-    jl check_invalid ; Если первый символ не цифра, строка некорректна
+    jl skip ; Если первый символ не цифра, строка некорректна
+	
+  
+	
     cmp cl, '9'
-    jg check_invalid ; Если первый символ не цифра, строка некорректна
+    jg skip; Если первый символ не цифра, строка некорректна
 
+	
   check_digit:
 	dec ax
     inc bx ; Переходим ко следующему символу
@@ -351,6 +345,10 @@ _check:
     inc bx ; Переходим к четвертому символу
     mov cl, byte ptr [bx] ; Получаем следующий символ строки(после первого пробела)
 
+	
+	mov di, offset stroperation	
+	mov dx, [bx]
+	mov [di], dx
     cmp cl, '+' ; Проверяем, является ли операцией сложения
     je check_space ; Если операция допустима, переходим к проверке пробела
 
@@ -378,11 +376,18 @@ _check:
 
     jmp check_invalid ; Если символ не пробел, строка некорректна
 
+		 skip:
+	   jmp check_invalid ; far
   check_minus_sign:
+    mov di, offset strnum2
+	
 	dec ax
 	inc bx ; Переходим к следующему символу
     mov cl, byte ptr [bx] ; Получаем следующий символ строки
 
+	mov dx, [bx]
+	mov [di], dx
+	
     cmp cl, '-' ; Проверяем, является ли символ знаком "-"
     je check_digit2 ; Если знак "-", переходим к проверке самого числа
 	
@@ -392,7 +397,7 @@ _check:
     cmp cl, '9'
     jg check_invalid ; Если символ не цифра, строка некорректна
 	
-  check_digit2:
+  check_digit2:  
 	dec ax
 	
     inc bx ; Переходим к следующему символу
@@ -401,18 +406,18 @@ _check:
 	cmp ax, 1 ; Проверяем, не закончилась ли строка
     jl check_end ; Если  символ не цифра, строка некорректна
 	
+	inc di
+	mov dx, [bx] ; 
+	mov [di], dx
+	
     cmp cl, '0' ; Проверяем, является ли символ цифрой
     jl check_invalid ; Если  символ не цифра, строка некорректна
-    cmp cl, '9'
+    cmp cl, '9'     
     jg check_invalid ; Если символ не цифра, строка некорректна
 	
 	jmp check_digit2 ; Если знак "-", переходим к концу проверки
-
-  check_end:
   
-    mov ax, 1 ; Возвращаем 1 (успешное выполнение)
-    jmp check_cleanup
-
+ 
   check_invalid:
     ; Выводим сообщение об ошибке и возвращаем 0
     mov dx, offset error_message_invalid_format
@@ -421,15 +426,12 @@ _check:
     add sp, 2
     xor ax, ax ; Возвращаем 0
 	jmp check_cleanup
+  
+  check_end:
+  
+    mov ax, 1 ; Возвращаем 1 (успешное выполнение)
+    jmp check_cleanup
 
-  check_invalid2:
-    ; Выводим сообщение об ошибке и возвращаем 0
-    mov dx, offset error_message_invalid_format2
-    push dx
-    call _putstr
-    add sp, 2
-    xor ax, ax ; Возвращаем 0
-	jmp check_cleanup
 	
 check_cleanup:
     ; Восстанавливаем регистры
@@ -485,6 +487,57 @@ _calc:
 	push dx
 	call _putstr
 	add sp, 2
+	
+	;выводим операцию
+	xor ax, ax
+	mov di, offset stroperation
+	mov dl, byte ptr [di]  
+	mov ah, 02h
+	int 21h
+	
+	;выводим строку (для отладки)
+	mov dx, offset strnum2
+	push dx
+	call _putstr
+	add sp, 2
+	
+	call _putnewline
+	
+	
+	; размер числа
+	mov dx, offset strnum2
+	push dx
+	call _strlen
+	add sp, 2
+	
+	mov dl, al  
+	; add dl, '0'
+	; mov ah, 02h
+	; int 21h
+	
+	; call _putnewline
+
+	mov si, ax
+	mov bx, offset strnum2
+	call _atoi
+	mov word ptr [num2], di	
+	add word ptr [num2], 2
+	
+	;проверяю итоа
+	mov dx, offset strnum2
+	push dx
+	mov dx, num2
+	push dx
+	call _itoa
+	add sp, 4
+	
+	;выводим строку (для отладки)
+	mov dx, offset strnum2
+	push dx
+	call _putstr
+	add sp, 2
+	
+	
 	
     mov sp, bp
     pop bp
