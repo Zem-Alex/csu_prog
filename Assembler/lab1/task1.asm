@@ -607,6 +607,33 @@ _operation_func:
 	add ax, word ptr [bp + arg2]
   _next_op:
   
+    cmp cl, '-'
+	jne _next_op2
+	sub ax, word ptr [bp + arg2]
+  _next_op2:
+  
+    cmp cl, '*'
+	jne _next_op3
+	mov bx, word ptr [bp + arg2]
+	imul bx
+  _next_op3:
+  
+    cmp cl, '/'
+	jne _next_op4
+	mov dx, 0
+	mov bx, word ptr [bp + arg2]
+	idiv bx
+  _next_op4:
+  
+    cmp cl, '%'
+	jne _the_end
+	mov dx, 0
+	mov bx, word ptr [bp + arg2]
+	idiv bx
+	mov ax, dx
+  _the_end:
+
+  
 	mov di, ax
 	
 	mov sp, bp
