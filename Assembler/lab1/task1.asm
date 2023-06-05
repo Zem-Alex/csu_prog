@@ -20,9 +20,11 @@ str1 db 256 dup(?)
 strnum1 db 256 dup(?)
 stroperation db 1 dup(?)
 strnum2 db 256 dup(?)
+strnumres db 256 dup(?)
 num dw ?       ; число
 num1 dw ?
 num2 dw ?
+numres dw ?
 error_message_invalid_format db "Error: incorrect string format", 0
 error_message_invalid_format2 db "!", 0
 data ends
@@ -236,29 +238,23 @@ _itoa:
 	mov byte ptr [si], ah ; добавить нулевой символ в конец строки
 	
 	
-	mov word ptr [bp+var1], cx
-	sub si, cx
-	mov bx, cx
-	xor dx, dx
-	mov ax, cx
-	mov bx, 2
-	div bx
-	mov cx, ax
-	for_b:
-		cmp cx, 0
-		je for_e
-	
-		mov bx, word ptr [bp+var1]
-		dec bx
-		mov word ptr [bp+var1], bx
-		mov al, byte ptr [bx+si]
-		xchg al, byte ptr [si]
-		mov byte ptr [bx+si], al
+	mov si, word ptr [bp+arg2]
+	mov di, cx
+	for_1_:
+		push [si]
+		dec di
 		inc si
-		
-		dec cx
-		jmp for_b
-	for_e:
+		cmp di, 0
+		jne for_1_
+	mov di, cx
+	mov si, word ptr [bp+arg2]
+	for_2_:
+		pop [si]
+		dec di
+		inc si
+		cmp di, 0
+		jne for_2_
+	mov byte ptr [si], ah
 	
 	mov sp, bp
 	pop bp
@@ -504,24 +500,50 @@ _calc:
 	call _putnewline
 	
 	
-	; размер числа
+	; размер первого числа
+	mov dx, offset strnum1
+	push dx
+	call _strlen
+	add sp, 2
+	
+	;atoi первого числа вырванного из исходной строки
+	dec ax
+	mov si, ax
+	mov bx, offset strnum1
+	call _atoi
+	mov word ptr [num1], di	
+	;add word ptr [num1], 2
+	
+	;проверяю итоа
+	mov dx, offset strnum1
+	push dx
+	mov dx, num1
+	push dx
+	call _itoa
+	add sp, 4
+	
+	;выводим строку (для отладки)
+	mov dx, offset strnum1
+	push dx
+	call _putstr
+	add sp, 2
+	
+	call _putnewline
+	
+	;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	; размер второго числа
 	mov dx, offset strnum2
 	push dx
 	call _strlen
 	add sp, 2
 	
-	mov dl, al  
-	; add dl, '0'
-	; mov ah, 02h
-	; int 21h
-	
-	; call _putnewline
-
+	;atoi второга числа вырванного из исходной строки
+	;dec ax
 	mov si, ax
 	mov bx, offset strnum2
 	call _atoi
 	mov word ptr [num2], di	
-	add word ptr [num2], 2
+	;add word ptr [num2], 2
 	
 	;проверяю итоа
 	mov dx, offset strnum2
@@ -538,10 +560,61 @@ _calc:
 	add sp, 2
 	
 	
+	;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!получили числа как инты, далее операции над ними!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	call _putnewline
+	
+	mov dx, offset stroperation
+	push dx
+	mov dx, num2
+	push dx
+	mov dx, num1
+	push dx
+	call _operation_func
+	add sp, 6
+	
+	mov word ptr [numres], di	
+	
+	;проверяю итоа
+	mov dx, offset strnumres
+	push dx
+	mov dx, numres
+	push dx
+	call _itoa
+	add sp, 4
+	
+	;выводим строку (для отладки)
+	mov dx, offset strnumres
+	push dx
+	call _putstr
+	add sp, 2
 	
     mov sp, bp
     pop bp
     ret
+
+;void _operation_func(int num1, int num2, char operation)
+;результат пусть будет в di
+_operation_func:
+	push bp
+    mov bp, sp
+	
+	mov ax, word ptr [bp + arg1]
+	mov bx, word ptr [bp + arg3]
+	mov cx, [bx]
+	
+	cmp cl, '+'
+	jne _next_op
+	add ax, word ptr [bp + arg2]
+  _next_op:
+  
+	mov di, ax
+	
+	mov sp, bp
+    pop bp
+    ret
+
+
+
 
 start: ; вызов функции calc (модифицировать главную функцию программы не требуется)
     mov ax, data
