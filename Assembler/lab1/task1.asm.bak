@@ -19,7 +19,7 @@ data segment para public
 str1 db 256 dup(?)
 strnum1 db 256 dup(?)
 strnum2 db 256 dup(?)
-num dw -5       ; число 
+num dw -5       ; число
 num1 dw ?
 num2 dw ?
 error_message_invalid_format db "Error: incorrect string format", 0
