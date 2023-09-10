@@ -1,99 +1,169 @@
 import networkx as nx
-import matplotlib.pyplot as plt
 
-def certifying_split(graph):
-    # Implementation of Certifying-Split algorithm
-    # You need to replace this with your own implementation
+def is_perfect_elimination_ordering(G, alpha):
+    for i in range(len(alpha)):
+        v = alpha[i]
+        neighbors = set(G.neighbors(v))
+        if any(alpha[j] in neighbors for j in range(i + 1, len(alpha))):
+            if not all(alpha[j] in neighbors for j in range(i + 1, len(alpha)) if alpha[j] not in neighbors):
+                return False
+    return True
+
+def certifying_split(G):
+    V = G.nodes()
+    E = G.edges()
+
+    # Compute a non-decreasing degree ordering α
+    alpha = sorted(V, key=lambda v: G.degree(v))
+
+    # Check if α is a perfect elimination ordering (peo)
+    if not is_perfect_elimination_ordering(G, alpha):
+        # Find a vertex vi with two neighbors vj and vk such that vjvk ∉ E and i < j < k
+        for i in range(len(alpha)):
+            vi = alpha[i]
+            neighbors = list(G.neighbors(vi))
+            for j in range(len(neighbors)):
+                vj = neighbors[j]
+                for k in range(j + 1, len(neighbors)):
+                    vk = neighbors[k]
+                    if not G.has_edge(vj, vk):
+                        # Check if vj and vk have a common neighbor z with vi z ∉ E
+                        common_neighbors = list(set(G.neighbors(vj)).intersection(set(G.neighbors(vk))))
+                        common_neighbors.remove(vi)
+                        z = next((n for n in common_neighbors if not G.has_edge(n, vi)), None)
+                        if z is not None:
+                            # {vi, vj, z, vk} induces a C4
+                            return False, [vi, vj, z, vk]
+
+                        # Find two vertices x and y such that vjx, vky ∈ E and vjy, vkx, vix, viy ∉ E
+                        for x in G.neighbors(vj):
+                            if G.has_edge(vk, x):
+                                continue
+                            for y in G.neighbors(vk):
+                                if not G.has_edge(vj, y) and not G.has_edge(vi, x) and not G.has_edge(vi, y):
+                                    if G.has_edge(x, y):
+                                        # {vi, vj, x, vk, y} induces a C5
+                                        return False, [vi, vj, x, vk, y]
+                                    else:
+                                        # {vj, x, vk, y} induces a 2K2
+                                        return False, [vj, x, vk, y]
+
+    # Compute the largest size of a clique in G
+    k = max(len(c) for c in nx.find_cliques(G))
+
     K = set()
     I = set()
-    for node in graph.nodes():
-        if node % 2 == 0:
-            K.add(node)
+    i = len(alpha) - 1
+
+    # Construct clique K and independent set I
+    while len(K) <= k - 1:
+        vi = alpha[i]
+        A = set(G.neighbors(vi)).intersection(K)
+        if len(A) == len(K):
+            K.add(vi)
         else:
-            I.add(node)
-    return K, I
+            x = next(x for x in G.neighbors(vi) if x not in K)
+            y = next(y for y in K if not G.has_edge(vi, y))
+            z = next(z for z in G.neighbors(y) if not G.has_edge(vi, z))
+            # {vi, x, y, z} induces a 2K2
+            return False, [vi, x, y, z]
+        i -= 1
 
-def certifying_threshold(graph):
-    K, I = certifying_split(graph)
+    i = len(alpha) - 1
 
-    # Non-decreasing degree ordering α
-    alpha = sorted(graph.nodes(), key=lambda v: graph.degree(v))
+    # Check for vertices in I
+    while i >= 0:
+        vi = alpha[i]
+        A = set(G.neighbors(vi)).intersection(K | I)
+        if A.issubset(K):
+            I.add(vi)
+        else:
+            x = next(x for x in A.intersection(I))
+            y = next(y for y in K if not G.has_edge(x, y) and not G.has_edge(vi, y))
+            z = next(z for z in G.neighbors(y) if not G.has_edge(x, z))
+            # {vi, x, y, z} induces a 2K2
+            return False, [vi, x, y, z]
+        i -= 1
 
-    # Nested neighborhood ordering β
-    beta = [v for v in alpha if v in I]
+    # Output yes and K and I
+    return True, K, I
 
-    # Delete isolated vertices
-    graph.remove_nodes_from(list(nx.isolates(graph)))
+def certifying_threshold(G):
+    # Run Certifying-Split to recognize whether G is split
+    is_split, K, I = certifying_split(G)
 
-    # Initialize variables
+    if not is_split:
+        # G is not split, output no and the vertex set inducing 2K2, C4, or P4
+        return False, K
+
+    # Compute a non-decreasing degree ordering α
+    alpha = sorted(G.nodes(), key=lambda v: G.degree(v))
+
+    beta = list(filter(lambda v: v in I, alpha))
+
+    # Delete all isolated vertices
+    G.remove_nodes_from(list(nx.isolates(G)))
+
     threshold = True
     i = len(alpha) - 1
 
     while i >= 0:
         vi = alpha[i]
-
-        if vi in graph.nodes():
-            if graph.degree(vi) == len(graph) - 1:
-                graph.remove_node(vi)
-                for x in graph.neighbors(vi):
-                    graph[x] = list(set(graph[x]) - {vi})
-                    if graph.degree(x) == 0:
-                        graph.remove_node(x)
-            else:
-                threshold = False
-                break
-
+        if vi in G.nodes() and G.degree(vi) == len(G.nodes()):
+            # vi is universal
+            G.remove_node(vi)
+            for x in G.neighbors(vi):
+                G.remove_node(x)
+            continue
+        else:
+            threshold = False
+            break
         i -= 1
 
     if threshold:
+        # Output yes and β
         return True, beta
+    else:
+        # Delete remaining vertices
+        while True:
+            K = set(v for v in K if any(u in I for u in G.neighbors(v)))
+            I = set(v for v in I if all(u in K for u in G.neighbors(v)))
 
-    # Cleanup remaining vertices
-    while True:
-        removed = False
-        for v in K.copy():
-            if not any(graph.neighbors(v)) or all(graph.has_edge(v, u) for u in I):
-                graph.remove_node(v)
-                K.remove(v)
-                removed = True
+            if not any(v in I for v in K):
+                break
 
-        for v in I.copy():
-            if all(graph.has_edge(v, u) for u in K):
-                graph.remove_node(v)
-                I.remove(v)
-                removed = True
+        # Choose a vertex v of I of highest degree
+        v = max(I, key=lambda u: G.degree(u))
 
-        if not removed:
-            break
+        # Find a non-neighbor y of v in K
+        non_neighbors = [n for n in K if not G.has_edge(v, n)]
+        if not non_neighbors:
+            # No non-neighbors found, handle the case accordingly
+            return False, []  # or any other appropriate response
 
-    # Choose a vertex v of I with the highest degree
-    v = max(I, key=lambda x: graph.degree(x))
+        y = next(iter(non_neighbors))
 
-    # Find a non-neighbor y of v in K
-    y = next(x for x in K if not graph.has_edge(v, x))
+        # Find a neighbor z of y in I
+        z = next(n for n in G.neighbors(y) if n in I)
 
-    # Find a neighbor z of y in I
-    z = next(x for x in I if graph.has_edge(y, x))
+        # Find a vertex w ∈ K that is a neighbor of v and a non-neighbor of z
+        w = next(n for n in G.neighbors(v) if n in K and not G.has_edge(z, n))
 
-    # Find a vertex w ∈ K that is a neighbor of v and a non-neighbor of z
-    w = next(x for x in K if graph.has_edge(v, x) and not graph.has_edge(z, x))
+        # Output no and {v, w, y, z} which induces a P4
+        return False, [v, w, y, z]
 
-    return False, [v, w, y, z]
 
-# Example usage
+# Create a threshold graph
 G = nx.Graph()
-G.add_nodes_from([1, 2, 3, 4])
-G.add_edges_from([(1, 2), (2, 4), (4, 3), (3, 1)])
+G.add_edges_from([(1, 2), (1, 3), (2, 3), (2, 4), (3, 4), (4, 5)])
 
-# Visualize the graph
-nx.draw(G, with_labels=True, node_color='lightblue', node_size=500, font_size=12, font_color='black', edge_color='gray')
+# Call the certifying_threshold function
+is_threshold, result = certifying_threshold(G)
 
-# Display the graph
-plt.show()
-
-result, order = certifying_threshold(G)
-if result:
-    print("Graph is threshold with order:", order)
+print("Is threshold:", is_threshold)
+if is_threshold:
+    beta = result
+    print("Nested neighborhood ordering:", beta)
 else:
-    print("Graph is not threshold, induced P4:", order)
-
+    vertex_set = result
+    print("Vertex set inducing 2K2, C4, or P4:", vertex_set)
