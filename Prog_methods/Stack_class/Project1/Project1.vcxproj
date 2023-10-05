@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CombinedStack.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StackOnList.cpp" />
   </ItemGroup>

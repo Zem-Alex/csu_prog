@@ -4,57 +4,76 @@
 template <typename T>
 class StackOnList
 {
-	struct myList
-	{
-		T data;
-		myList* next;
-	};
+    // Внутренняя структура myList для представления элементов связанного списка
+    struct myList
+    {
+        T data;         // Значение элемента
+        myList* next;   // Указатель на следующий элемент списка
+    };
 
-	myList* head;
-	size_t count;
+    myList* head;    // Указатель на вершину стека (первый элемент)
+    size_t count;    // Количество элементов в стеке
 
 public:
-	StackOnList() : count(0), head(nullptr) {}
-	~StackOnList()
-	{
-		while (count)
-		{
-			pop();
-		}
-	};
+    // Конструктор по умолчанию инициализирует пустой стек
+    StackOnList() : count(0), head(nullptr) {}
 
-	void push(T&& rhs)
-	{
-		head = new myList{ rhs, head };
-		count++;
-	}
+    // Деструктор удаляет все элементы стека при его уничтожении
+    ~StackOnList()
+    {
+        while (count)
+        {
+            pop();
+        }
+    };
 
-	void pop()
-	{
-		if (count == 0)
-		{
-			throw std::out_of_range("Stack is empty.");
-		}
+    // Метод push добавляет элемент в вершину стека
+    void push(T&& rhs)
+    {
+        // Создаем новый узел и делаем его новой вершиной стека
+        head = new myList{ rhs, head };
+        count++;
+    }
 
-		myList* tmphead = head;
-		head = head->next;
-		delete tmphead;
-		count--;
-	}
+    // Метод pop удаляет элемент из вершины стека
+    void pop()
+    {
+        if (count == 0)
+        {
+            throw std::out_of_range("Stack is empty.");
+        }
 
-	T& top()
-	{
-		return head->data;
-	}
+        // Сохраняем указатель на текущую вершину стека
+        myList* tmphead = head;
 
-	size_t size() const
-	{
-		return count;
-	}
+        // Перемещаем указатель вершины на следующий элемент
+        head = head->next;
+
+        // Удаляем старую вершину
+        delete tmphead;
+        count--;
+    }
+
+    // Метод top возвращает ссылку на элемент в вершине стека
+    T& top()
+    {
+        if (count == 0)
+        {
+            throw std::out_of_range("Stack is empty.");
+        }
+
+        return head->data;
+    }
+
+    // Метод size возвращает количество элементов в стеке
+    size_t size() const
+    {
+        return count;
+    }
 };
 
 
-int testStackOnList()
+/*int testStackOnList()
 {
 	StackOnList<int> s;
 	try
@@ -78,4 +97,4 @@ int testStackOnList()
 	std::cout << s.top() << std::endl;
 
 	return 0;
-}
+}*/

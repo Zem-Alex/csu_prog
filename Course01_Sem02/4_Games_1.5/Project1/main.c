@@ -89,7 +89,7 @@ int main(void)
             if ((ballPosition.x <= ballRadius + 16) && (ballPosition.y <= player1.position.y + player1.size.y + 26) && (ballPosition.y >= player1.position.y - 26))
             {
                 PlaySoundMulti(fxButtonYes);
-                ballSpeed.x *= -1.1f;
+                ballSpeed.x s= -1.1f;
             }
 
             else // Ñheck the collision tile of second (right) player and the ball
