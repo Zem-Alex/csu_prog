@@ -2,10 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 #include <random>
 
-
+# define M_PI  3.14159265358979323846
 
 using namespace std;
 
@@ -67,30 +66,103 @@ vector<Point> convexHull(vector<Point> p)
 	return res;
 }
 
+// Функция для генерации случайных точек внутри круга радиуса 1
+vector<Point> generatePointsInCircle(int numPoints) {
+    vector<Point> points;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<double> dis(-1.0, 1.0);
+
+    for (int i = 0; i < numPoints; i++) {
+        double x = dis(gen);
+        double y = dis(gen);
+        // Проверяем, находится ли точка внутри круга радиуса 1
+        if (x * x + y * y <= 1.0) {
+            points.push_back({ x, y });
+        }
+    }
+
+    return points;
+}
+
+// Функция для генерации случайных точек внутри квадрата со стороной sqrt(pi)
+vector<Point> generatePointsInSquare(int numPoints) {
+    vector<Point> points;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<double> dis(-sqrt(M_PI), sqrt(M_PI));
+
+    for (int i = 0; i < numPoints; i++) {
+        double x = dis(gen);
+        double y = dis(gen);
+        points.push_back({ x, y });
+    }
+
+    return points;
+}
+
+void runExperiments(int numPoints, int numExperiments)
+{
+    double totalAreaCircle = 0.0;
+    double totalAreaSquare = 0.0;
+    int totalEdgesCircle = 0;
+    int totalEdgesSquare = 0;
+
+    for (int experiment = 0; experiment < numExperiments; experiment++) {
+        // Генерируем случайные точки внутри круга и квадрата
+        vector<Point> pointsCircle = generatePointsInCircle(numPoints);
+        vector<Point> pointsSquare = generatePointsInSquare(numPoints);
+
+        // Вычисляем выпуклые оболочки для каждого набора точек
+        vector<Point> resultCircle = convexHull(pointsCircle);
+        vector<Point> resultSquare = convexHull(pointsSquare);
+
+        int numEdgesCircle = resultCircle.size();
+        int numEdgesSquare = resultSquare.size();
+
+        double areaCircle = 0.0;
+        double areaSquare = 0.0;
+
+        // Вычисляем площадь выпуклых оболочек
+        for (int i = 0; i < numEdgesCircle; i++) {
+            int j = (i + 1) % numEdgesCircle;
+            areaCircle += resultCircle[i].x * resultCircle[j].y - resultCircle[j].x * resultCircle[i].y;
+        }
+        areaCircle = 0.5 * abs(areaCircle);
+
+        for (int i = 0; i < numEdgesSquare; i++) {
+            int j = (i + 1) % numEdgesSquare;
+            areaSquare += resultSquare[i].x * resultSquare[j].y - resultSquare[j].x * resultSquare[i].y;
+        }
+        areaSquare = 0.5 * abs(areaSquare);
+
+        totalEdgesCircle += numEdgesCircle;
+        totalEdgesSquare += numEdgesSquare;
+        totalAreaCircle += areaCircle;
+        totalAreaSquare += areaSquare;
+    }
+
+    double avgEdgesCircle = static_cast<double>(totalEdgesCircle) / numExperiments;
+    double avgAreaCircle = totalAreaCircle / numExperiments;
+    double avgEdgesSquare = static_cast<double>(totalEdgesSquare) / numExperiments;
+    double avgAreaSquare = totalAreaSquare / numExperiments;
+
+    // Выводим результаты экспериментов
+
+    cout << "Points: " << numPoints << endl;
+    cout << "Average Edges (Circle): " << avgEdgesCircle << ", Average Area (Circle): " << avgAreaCircle << endl;
+    cout << "Average Edges (Square): " << avgEdgesSquare << ", Average Area (Square): " << avgAreaSquare << endl << endl;
+}
+
 int main()
 {
-	vector<Point> points{
-		{4.0, -3.0},
-		{3.0, 4.0},
-		{2.0, 2.0},
-		{2.0, -5.0},
-		{1.0, -1.0},
-		{0.0, 0.0},
-		{0.0, 0.0},
-		{0.0, -5.0},
-		{-1.0, -1.0},
-		{-1.0, 2.0},
-		{-3.0, -3.0},
-		{-3.0, 3.0},
-		{-4.0, 1.0},
-		{5.0, -1.0},
-	};
+    vector<int> numPointsToTest = { 10, 50, 100, 500, 1000 , 2000, 4000, 5000, 10000, 20000, 30000, 40000, 50000 };
+    int numExperiments = 100;
 
-	vector<Point> result = convexHull(points);
+    for (int numPoints : numPointsToTest) 
+    {
+        runExperiments(numPoints, numExperiments);
+    }
 
-	for (size_t i = 0; i < result.size(); i++)
-	{
-		cout << i << ") (" << result[i].x << ", " << result[i].x << ")" << endl;
-	}
-
+    return 0;
 }
