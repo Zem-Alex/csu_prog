@@ -21,12 +21,6 @@ private:
     void writeMatrixToFile(const std::string& filename) const;
 };
 
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <limits>
-
-
 
 Graph::Graph(const std::string& filename)
 {

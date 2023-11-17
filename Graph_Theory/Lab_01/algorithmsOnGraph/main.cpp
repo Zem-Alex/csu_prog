@@ -8,10 +8,10 @@
 int main() 
 {
     setlocale(LC_ALL, "ru");
-    std::ifstream inputFile("test6.txt");
+    std::ifstream inputFile("test1.txt");
     int n, option;
     inputFile >> n;
-    Graph graph("test6.txt");
+    Graph graph("test1.txt");
 
     std::cout << "Выберите алгоритм:" << std::endl
         << "1) Алгоритм Дейкстры" << std::endl

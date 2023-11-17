@@ -476,7 +476,6 @@ HBITMAP flipBitmap(HBITMAP srcBitmap) {
     if (!GetObject(srcBitmap, sizeof(BITMAP), &bitmap))
         return NULL;
     if ((bitmap.bmBitsPixel != 24) && (bitmap.bmBitsPixel != 32)) {
-        //MessageBox (NULL, "", "Изображение должно содержать 32 или 24 бита на пиксель", MB_OK);
         return NULL;
     }
 
@@ -494,7 +493,7 @@ HBITMAP flipBitmap(HBITMAP srcBitmap) {
     for (int i = 0; i < bitmap.bmHeight; i++) {
         byte* startbit = bits + i * bitmap.bmWidthBytes;
         byte* endbit = bits + i * bitmap.bmWidthBytes + bitmap.bmWidthBytes - bytesPixel;
-        //Просто реверс битов
+        //
         for (; startbit < endbit; startbit += bytesPixel, endbit -= bytesPixel) {
             memcpy(&tempbit, endbit, bytesPixel);
             memcpy(endbit, startbit, bytesPixel);
@@ -507,6 +506,7 @@ HBITMAP flipBitmap(HBITMAP srcBitmap) {
 
     return dstBitmap;
 }
+
 
 HBITMAP Grid(HBITMAP srcBitmap) {
     BITMAP bitmap;
@@ -553,6 +553,58 @@ HBITMAP Grid(HBITMAP srcBitmap) {
 }
 
 
+HBITMAP DownScaling(HBITMAP srcBitmap) {
+    int scale = 2;
+    BITMAP bitmap;
+    HBITMAP dstBitmap;
+    unsigned char* bits;
+    unsigned char* resizedBits;
+    unsigned int pixelCount;
+    unsigned int bytesPixel;
+
+    if (!GetObject(srcBitmap, sizeof(BITMAP), &bitmap))
+        return NULL;
+
+    if ((bitmap.bmBitsPixel != 24) && (bitmap.bmBitsPixel != 32)) {
+        return NULL;
+    }
+
+    pixelCount = bitmap.bmHeight * bitmap.bmWidth;
+
+    bytesPixel = bitmap.bmBitsPixel / 8;
+
+    bits = (unsigned char*)malloc(bitmap.bmWidthBytes * bitmap.bmHeight);
+    if (!bits) {
+        return NULL;
+    }
+
+    GetBitmapBits(srcBitmap, bitmap.bmWidthBytes * bitmap.bmHeight, (void*)bits);
+
+    int newWidth = bitmap.bmWidth / scale;
+    int newHeight = bitmap.bmHeight / scale;
+
+    resizedBits = (unsigned char*)malloc(bitmap.bmWidthBytes * newHeight * bytesPixel);
+    if (!resizedBits) {
+        free(bits);
+        return NULL;
+    }
+
+    for (int i = 0; i < newHeight; i++) {
+        for (int j = 0; j < newWidth; j++) {
+            int srcIndex = ((i * scale) * bitmap.bmWidth + (j * scale)) * bytesPixel;
+            int dstIndex = (i * newWidth + j) * bytesPixel;
+
+            memcpy(resizedBits + dstIndex, bits + srcIndex, bytesPixel);
+        }
+    }
+
+    dstBitmap = CreateBitmap(newWidth, newHeight, 1, bitmap.bmBitsPixel, resizedBits);
+
+    free(bits);
+    free(resizedBits);
+
+    return dstBitmap;
+}
 
 //--------------------
 
