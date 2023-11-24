@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <limits>
+#include <unordered_map>
 
 const int INF = std::numeric_limits<int>::max();
 
@@ -9,6 +10,7 @@ class Graph
 {
 public:
     Graph(const std::string& filename);
+   
     void runAlgorithm(int option);
 
 private:
@@ -18,7 +20,10 @@ private:
     void bellmanFord(int startVertex, std::vector<int>& distances);
     void floydWarshall();
     void writeDistToFile(const std::string& filename, std::vector<int>& distances) const;
-    void writeMatrixToFile(const std::string& filename) const;
+    void writeMatrixToFile(const std::string& filename) const; 
+
+    std::unordered_map<int, std::vector<std::pair<int, int>>> adjList;
+    void convertToAdjacencyList();
 };
 
 
@@ -38,6 +43,23 @@ Graph::Graph(const std::string& filename)
     }
 }
 
+void Graph::convertToAdjacencyList()
+{
+    adjList.clear();
+    int n = graph.size();
+
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
+            if (graph[i][j] != 0 && graph[i][j] != INF && i != j)
+            {
+                adjList[i].push_back(std::make_pair(j, graph[i][j]));
+            }
+        }
+    }
+}
+
 void Graph::runAlgorithm(int option)
 {
     int startVertex = 0;
@@ -47,15 +69,14 @@ void Graph::runAlgorithm(int option)
     switch (option)
     {
     case 1:
+    case 2: // Для алгоритмов Дейкстры и Форда-Беллмана
+        convertToAdjacencyList(); // Преобразование в список смежности
         std::cout << "Введите начальную вершину: ";
         std::cin >> startVertex;
-        dijkstra(startVertex, distances);
-        break;
-
-    case 2:
-        std::cout << "Введите начальную вершину: ";
-        std::cin >> startVertex;
-        bellmanFord(startVertex, distances);
+        if (option == 1)
+            dijkstra(startVertex, distances);
+        else
+            bellmanFord(startVertex, distances);
         break;
 
     case 3:
@@ -75,40 +96,38 @@ void Graph::runAlgorithm(int option)
     }
 }
 
-void Graph::dijkstra(int startVertex, std::vector<int>& distances)
-{
-    int n = graph.size();
+
+void Graph::dijkstra(int startVertex, std::vector<int>& distances) {
+    int n = adjList.size();
     std::vector<bool> used(n, false);
     distances.assign(n, INF);
     distances[startVertex] = 0;
 
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i = 0; i < n; ++i) {
         int v = -1;
-        for (int j = 0; j < n; ++j)
-        {
-            if (!used[j] && (v == -1 || distances[j] < distances[v]))
-            {
+        for (int j = 0; j < n; ++j) {
+            if (!used[j] && (v == -1 || distances[j] < distances[v])) {
                 v = j;
             }
         }
 
-        if (distances[v] == INF)
-        {
+        if (distances[v] == INF) {
             break;
         }
 
         used[v] = true;
 
-        for (int u = 0; u < n; ++u)
-        {
-            if (graph[v][u] != 0 && distances[v] != INF && distances[v] + graph[v][u] < distances[u])
-            {
-                distances[u] = distances[v] + graph[v][u];
+        for (const auto& edge : adjList[v]) {
+            int u = edge.first;
+            int weight = edge.second;
+
+            if (distances[v] != INF && distances[v] + weight < distances[u]) {
+                distances[u] = distances[v] + weight;
             }
         }
     }
 }
+
 
 void Graph::bellmanFord(int startVertex, std::vector<int>& distances)
 {
