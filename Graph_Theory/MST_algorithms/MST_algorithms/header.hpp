@@ -73,8 +73,29 @@ void Graph::runAlgorithm(int option)
     switch (option) 
     {
     case 1:
+        if (!isConnected())
+        {
+            std::cout << "Graph is not connected!" << std::endl;
+            return;
+        }
         edges = kruskalMST();
-        break;
+       
+        if (edges.empty())
+        {
+            std::cout << "Graph is not connected!" << std::endl;
+        }
+        else {
+            int totalWeight = 0;
+            for (const auto& edge : edges) {
+                totalWeight += edge.weight;
+            }
+            std::cout << "Weight of minimum spanning tree: " << totalWeight << std::endl;
+
+            writeEdgesToFile(edges, outputFile);
+        }
+
+        edges = primMST();
+        //break;
     case 2:
         if (!isConnected()) 
         {
@@ -103,7 +124,8 @@ void Graph::runAlgorithm(int option)
     }
 }
 
-bool Graph::isConnected() {
+bool Graph::isConnected() 
+{
     int n = graph.size();
     std::vector<bool> visited(n, false);
     std::queue<int> q;
@@ -111,12 +133,15 @@ bool Graph::isConnected() {
     q.push(0);
     visited[0] = true;
 
-    while (!q.empty()) {
+    while (!q.empty()) 
+    {
         int u = q.front();
         q.pop();
 
-        for (int v = 0; v < n; ++v) {
-            if (graph[u][v] != 0 && !visited[v]) {
+        for (int v = 0; v < n; ++v) 
+        {
+            if (graph[u][v] != 0 && !visited[v]) 
+            {
                 q.push(v);
                 visited[v] = true;
             }
@@ -151,13 +176,15 @@ std::vector<Edge> Graph::kruskalMST()
     std::vector<int> parent(n, -1);
 
     int edgeCount = 0, i = 0;
-    while (edgeCount < n - 1 && i < edges.size()) {
+    while (edgeCount < n - 1 && i < edges.size()) 
+    {
         Edge nextEdge = edges[i++];
 
         int u = findParent(parent, nextEdge.src);
         int v = findParent(parent, nextEdge.dest);
 
-        if (u != v) {
+        if (u != v) 
+        {
             result.push_back(nextEdge);
             unionVertices(parent, u, v);
             edgeCount++;
@@ -167,7 +194,8 @@ std::vector<Edge> Graph::kruskalMST()
     return result;
 }
 
-std::vector<Edge> Graph::primMST() {
+std::vector<Edge> Graph::primMST() 
+{
     convertToAdjacencyList(); // Преобразование из матрицы смежности в список смежности
 
     int n = adjacencyList.size();
@@ -186,11 +214,13 @@ std::vector<Edge> Graph::primMST() {
         pq.pop();
         inQ[u] = false;
 
-        for (const auto& edge : adjacencyList[u]) {
+        for (const auto& edge : adjacencyList[u]) 
+        {
             int v = edge.first;
             int weight = edge.second;
 
-            if (inQ[v] && weight < key[v]) {
+            if (inQ[v] && weight < key[v]) 
+            {
                 parent[v] = u;
                 key[v] = weight;
                 pq.push({ key[v], v });
@@ -206,28 +236,34 @@ std::vector<Edge> Graph::primMST() {
 }
 
 
-int Graph::findParent(std::vector<int>& parent, int vertex) {
-    if (parent[vertex] == -1) {
+int Graph::findParent(std::vector<int>& parent, int vertex) 
+{
+    if (parent[vertex] == -1) 
+    {
         return vertex;
     }
     return findParent(parent, parent[vertex]);
 }
 
-void Graph::unionVertices(std::vector<int>& parent, int u, int v) {
+void Graph::unionVertices(std::vector<int>& parent, int u, int v) 
+{
     int uSet = findParent(parent, u);
     int vSet = findParent(parent, v);
     parent[uSet] = vSet;
 }
 
-void Graph::writeEdgesToFile(const std::vector<Edge>& edges, const std::string& outputFile) {
+void Graph::writeEdgesToFile(const std::vector<Edge>& edges, const std::string& outputFile) 
+{
     int totalWeight = 0;
     std::ofstream outputFileStream(outputFile);
-    if (!outputFileStream.is_open()) {
+    if (!outputFileStream.is_open()) 
+    {
         std::cout << "Unable to open the output file!" << std::endl;
         return;
     }
 
-    for (const auto& edge : edges) {
+    for (const auto& edge : edges) 
+    {
         totalWeight += edge.weight;
         outputFileStream << edge.src << " " << edge.dest << " " << edge.weight << std::endl;
     }
