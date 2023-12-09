@@ -5,7 +5,7 @@
 #include "header.hpp" 
 
 int main() {
-    Graph graph("test5.txt");
+    Graph graph("test1.txt");
     int option;
     std::cout << "Choose algorithm (1 - Kruskal, 2 - Prim): ";
     std::cin >> option;
