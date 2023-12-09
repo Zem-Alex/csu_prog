@@ -50,7 +50,7 @@ Graph::Graph(const std::string& filename)
         }
     }
 
-    inputFile.close(); 
+    inputFile.close();
 }
 
 
