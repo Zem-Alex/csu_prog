@@ -50,23 +50,101 @@ Graph::Graph(const std::string& filename)
         }
     }
 
-    inputFile.close(); 
+    inputFile.close();
 }
 
 
 bool Graph::check_candidates(const std::vector<int>& Qplus, const std::vector<int>& Qminus) const
 {
-    //...
+    for (int i : Qminus)
+    {
+        bool q = true;
+        for (int j : Qplus)
+        {
+            if (graph[i][j] != 0)
+            {
+                q = false;
+                break;
+            }
+        }
+        if (q)
+            return false;
+    }
     return true;
 }
 void Graph::extend(std::vector<int> S, std::vector<int> Qplus, std::vector<int> Qminus)
 {
-    //...
+    while (!Qplus.empty() && check_candidates(Qplus, Qminus))
+    {
+        int v = Qplus.front();
+        
+
+        S.push_back(v);
+        std::vector<int> newQplus;
+        std::vector<int> newQminus;
+
+        for (int u : Qplus)
+        {
+            if (graph[v][u] == 0 && u != v)
+            {
+                newQplus.push_back(u);
+            }
+        }
+
+        for (int u : Qminus)
+        {
+            if (graph[v][u] == 0)
+            {
+                newQminus.push_back(u);
+            }
+        }
+      
+        if (newQplus.empty())
+        {
+            if (newQminus.empty())
+            {
+                maximalIndependentSets.push_back(S);
+                if (maxInd < S.size())
+                    maxInd = S.size();
+            }
+        }
+        else
+        {
+            extend(S, newQplus, newQminus);
+        }   
+
+        for (int i = 0; i < S.size(); i++)
+        {
+            if (S[i] == v)
+            {
+                S.erase(S.begin() + i);
+                break;
+            }
+        }
+        for (int i = 0; i < Qplus.size(); i++)
+        {
+            if (Qplus[i] == v)
+            {
+                Qplus.erase(Qplus.begin() + i);
+                break;
+            }
+        }
+
+        Qminus.push_back(v);
+    }
 }
 
 void Graph::bronKerbosch()
 {
-    //...
+    Qplus.clear();
+    for (int i = 0; i < graph.size(); ++i)
+    {
+        Qplus.push_back(i);
+    }
+
+    Qminus.clear(); // Инициализация Qminus
+
+    extend(S, Qplus, Qminus);
 }
 
 void Graph::runBronKerbosch()
@@ -83,21 +161,20 @@ void Graph::printResults()
 
     std::ofstream outputFile("output.txt");
 
-    /*for (const auto& independentSet : maximalIndependentSets)
+    for (const auto& independentSet : maximalIndependentSets)
     {
-        std::cout << "Maximal Independent Set: ";
+        //std::cout << "Maximal Independent Set: ";
         for (int vertex : independentSet)
         {
-            std::cout << vertex << " ";
+            //std::cout << vertex << " ";
             outputFile << vertex << " ";
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
         outputFile << std::endl;
-    }*/
+    }
 
     outputFile.close();
 }
-
 
 int main()
 {
