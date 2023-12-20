@@ -7,6 +7,8 @@
 #include <string>
 #include <functional>
 
+
+
 template <typename Key, typename Data>
 class bst
 {
@@ -19,6 +21,8 @@ class bst
     size_t count = 0;
     //возвращает адрес указателя, по которому должен располагаться узел с ключом k
     node** _find(const Key& k)const;
+    bool isCondition2();
+    bool isCondition3();
 
     // функция для псевдографического вывода дерева
     void printTree(node* root, int level, bool isRight) const;
@@ -34,12 +38,90 @@ public:
     size_t height() const;
     size_t width() const;
 
+    bool isRedBlackTree();
+    size_t insertToRBT(const Key& k);
+
     // функция для псевдографического вывода дерева
     void printTree() const;
     void visit(std::function<void(const Key& k, const Data& d)> worker) const;
     bool is_bst_by_data() const;
     std::vector<std::pair<Key, Data>> dump() const;
 };
+
+enum class Color
+{
+    Red,
+    Black
+};
+
+template<typename Key, typename Data>
+bool bst<Key, Data>::isCondition2()
+{
+    std::stack<node*> s;
+    node* current = root;
+    while (current || s.size())
+    {
+        if (current)
+        {
+            s.push(current);
+            current = current->left;
+        }
+        else
+        {
+            current = s.top()->right;
+            
+            if (s.top()->data == Color::Red)
+            {
+                auto left = s.top()->left;
+                auto right = s.top()->right;
+                if (left && left->data == Color::Red || right && right->data == Color::Red)
+                {
+                    return false;
+                }
+            }
+            s.pop();
+        }
+    }
+    return true;
+}
+
+template<typename Key, typename Data>
+bool bst<Key, Data>::isCondition3()
+{
+    std::stack<pair<node*, size_t>> s;
+    size_t currentHeight = 0;
+    int height = -1;
+    node* current = root;
+    while (current || s.size())
+    {
+        if (current)
+        {
+            s.push({ current, current->data == Color::Black ? currentHeight++ : currentHeight });
+            current = current->left;
+        }
+        else
+        {
+            if (height != -1 && height != currentHeight)
+                return false;
+
+            height = currentHeight;
+            current = s.top().first->right;
+            currentHeight = s.top().second;
+            if (s.top().first->data == Color::Black)
+                ++currentHeight;
+
+            s.pop();
+        }
+    }
+
+    return true;
+}
+
+template<typename Key, typename Data>
+bool bst<Key, Data>::isRedBlackTree()
+{
+    return isCondition2() && isCondition3();
+}
 
 using namespace std;
 
@@ -280,35 +362,61 @@ size_t bst<Key, Data>::width() const
     return abs(minshift - maxshift);
 }
 
+template<typename Key, typename Data>
+size_t bst<Key, Data>::insertToRBT(const Key& k)
+{
+    auto p = _find(k);
+    if (*p)
+    {
+        return;
+    }
+
+    *p = new node{ k, Color::Red };
+    this->findprev(k);
+    ++count;
+}
 
 int main()
 {
-    bst<std::string, int> t;
-    t.insert("one", 1);
-    cout << t.height() << endl;
-    //cout << t.width() << endl;
-    t.insert("two", 2);
-    t.insert("three", 3);
-    t.insert("four", 4);
-    t.insert("five", 5);
-    t.insert("six", 6);
-    t.insert("seven", 7);
-    t.insert("eight", 8);
-    t.insert("nine", 9);
-    t.insert("ten", 10);
-    t.insert("eleven", 11);
-    t.insert("twelve", 12);
-    t.printTree();
-    std::cout << *t.findnext("nine") << std::endl;
-    std::cout << *t.find("five") << std::endl;
-    (*t.find("five")).get() = 50;
-    std::cout << *t.find("five") << std::endl;
-    // t.remove("one");
-    std::cout << t.size() << std::endl;
-    std::cout << *t.findnext("nine") << std::endl;
+    bst<int, Color> rbt;
+    rbt.insert(13, Color::Black);
+    rbt.insert(8, Color::Red);
+    rbt.insert(11, Color::Black);
+    rbt.insert(1, Color::Black);
+    rbt.insert(6, Color::Red);
 
-    cout << t.height() << endl;
-    cout << t.width() << endl;
-    return 0;
+    rbt.insert(17, Color::Red);
+    rbt.insert(15, Color::Black);
+    rbt.insert(25, Color::Black);
+    rbt.insert(22, Color::Red);
+    rbt.insert(27, Color::Red);
+    std::cout << rbt.isRedBlackTree();
+    //bst<std::string, int> t;
+    //t.insert("one", 1);
+    //cout << t.height() << endl;
+    ////cout << t.width() << endl;
+    //t.insert("two", 2);
+    //t.insert("three", 3);
+    //t.insert("four", 4);
+    //t.insert("five", 5);
+    //t.insert("six", 6);
+    //t.insert("seven", 7);
+    //t.insert("eight", 8);
+    //t.insert("nine", 9);
+    //t.insert("ten", 10);
+    //t.insert("eleven", 11);
+    //t.insert("twelve", 12);
+    //t.printTree();
+    //std::cout << *t.findnext("nine") << std::endl;
+    //std::cout << *t.find("five") << std::endl;
+    //(*t.find("five")).get() = 50;
+    //std::cout << *t.find("five") << std::endl;
+    //// t.remove("one");
+    //std::cout << t.size() << std::endl;
+    //std::cout << *t.findnext("nine") << std::endl;
+
+    //cout << t.height() << endl;
+    //cout << t.width() << endl;
+    //return 0;
     //std::cout << "Hello World!\n";
 }
