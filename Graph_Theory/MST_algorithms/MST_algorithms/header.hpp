@@ -28,6 +28,7 @@ private:
     void unionVertices(std::vector<int>& parent, int u, int v);
     std::vector<Edge> kruskalMST();
     std::vector<Edge> primMST();
+    void writeEdges(const std::vector<Edge>& edges, const std::string& outputFile);
     void writeEdgesToFile(const std::vector<Edge>& edges, const std::string& outputFile);
 };
 
@@ -70,57 +71,31 @@ void Graph::runAlgorithm(int option)
 
     std::string outputFile = "output.txt";
 
+    if (!isConnected())
+    {
+        std::cout << "  Graph is not connected!" << std::endl;
+        return;
+    }
+
     switch (option) 
     {
     case 1:
-        if (!isConnected())
-        {
-            std::cout << "Graph is not connected!" << std::endl;
-            return;
-        }
+        std::cout << "Kruskal: " << std::endl;
         edges = kruskalMST();
        
-        if (edges.empty())
-        {
-            std::cout << "Graph is not connected!" << std::endl;
-        }
-        else {
-            int totalWeight = 0;
-            for (const auto& edge : edges) {
-                totalWeight += edge.weight;
-            }
-            std::cout << "Weight of minimum spanning tree: " << totalWeight << std::endl;
-
-            writeEdgesToFile(edges, outputFile);
-        }
-
-        edges = primMST();
+        writeEdges(edges, outputFile);
+        
         //break;
     case 2:
-        if (!isConnected()) 
-        {
-            std::cout << "Graph is not connected!" << std::endl;
-            return;
-        }
+        std::cout << "Prim: " << std::endl;
         edges = primMST();
+
+        writeEdges(edges, outputFile);
+
         break;
     default:
         std::cout << "Invalid option!" << std::endl;
         return;
-    }
-
-    if (edges.empty()) 
-    {
-        std::cout << "Graph is not connected!" << std::endl;
-    }
-    else {
-        int totalWeight = 0;
-        for (const auto& edge : edges) {
-            totalWeight += edge.weight;
-        }
-        std::cout << "Weight of minimum spanning tree: " << totalWeight << std::endl;
-        
-        writeEdgesToFile(edges, outputFile);
     }
 }
 
@@ -269,5 +244,22 @@ void Graph::writeEdgesToFile(const std::vector<Edge>& edges, const std::string& 
     }
 
     outputFileStream.close();
-    std::cout << "Edges written to file: " << outputFile << std::endl;
+    //std::cout << "Edges written to file: " << outputFile << std::endl;
+}
+
+void Graph::writeEdges(const std::vector<Edge>& edges, const std::string& outputFile)
+{
+    if (edges.empty())
+    {
+        std::cout << "Graph is not connected!" << std::endl;
+    }
+    else {
+        int totalWeight = 0;
+        for (const auto& edge : edges) {
+            totalWeight += edge.weight;
+        }
+        std::cout << "  Weight of minimum spanning tree: " << totalWeight << std::endl;
+
+        writeEdgesToFile(edges, outputFile);
+    }
 }
