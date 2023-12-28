@@ -39,7 +39,7 @@ public:
     size_t width() const;
 
     bool isRedBlackTree();
-    size_t insertToRBT(const Key& k);
+    void insertToRBT(const Key& k);
 
     // функция для псевдографического вывода дерева
     void printTree() const;
@@ -363,23 +363,109 @@ size_t bst<Key, Data>::width() const
 }
 
 template<typename Key, typename Data>
-size_t bst<Key, Data>::insertToRBT(const Key& k)
+void bst<Key, Data>::insertToRBT(const Key& k)
 {
-    auto p = _find(k);
-    if (*p)
+    auto rotateLeft = [](node** r) -> void
     {
-        return;
-    }
+        auto tmp = *r;
+        *r = (*r)->right;
+        tmp->left = (*r)->left;
+        (*r)->left = tmp;
+    };
 
-    *p = new node{ k, Color::Red };
-    this->findprev(k);
-    ++count;
+    auto rotateRight = [](node** r) -> void
+    {
+        auto tmp = *r;
+        *r = (*r)->left;
+        tmp->right = (*r)->right;
+        (*r)->right = tmp;
+    };
+
+    size_t& ccount = count;
+
+    std::function<bst<Key, Data>::node**(bst<Key, Data>::node**)> insert = [&](bst<Key, Data>::node** r) -> bst<Key, Data>::node** // return addres of pointer start problem vertex after insert in subtree vertex 
+    {
+        if (*r == nullptr)
+        {
+            *r = new node{ k, Color::Red };
+            ccount++;
+            return r;
+        }
+
+        if ((*r)->key == k)
+            return nullptr;
+
+        auto p = ((*r)->key == k) ? insert(&(*r)->right) : insert(&(*r)->left);
+
+        if (p == nullptr)
+            return nullptr;
+
+        if (((*r)->right == *p || (*r)->left == *p) && (*r)->data == Color::Black)
+            return nullptr;
+
+        if ((*r)->right == *p || (*r)->left == *p)
+            return p;
+
+        if (
+            (p == &(*r)->left->left && (*r)->right->data == Color::Red) || // 1a scheme
+            (p == &(*r)->right->right && (*r)->left->data == Color::Red) || //  symmetrical 1a
+            (p == &(*r)->left->right && (*r)->right->data == Color::Red) || // 1b
+            (p == &(*r)->right->left && (*r)->left->data == Color::Red) // 1b symmetrical
+            ) 
+        {
+            (*r)->right->data = Color::Black;
+            (*r)->left->data = Color::Black;
+            (*r)->data = Color::Red;
+            return r; // r - proplem vertex
+        }
+
+        if(p == &(*r)->left->left) // shceme 2a
+        {
+            rotateRight(r);
+
+            (*r)->data = Color::Black;
+            (*r)->right->data = Color::Red;
+            
+            return nullptr;
+        }
+
+        if (p == &(*r)->right->right) // shceme 2a
+        {
+            rotateLeft(r);
+
+            (*r)->data = Color::Black;
+            (*r)->left->data = Color::Red;
+
+            return nullptr;
+        }
+
+        if (p == &(*r)->left->right) // shceme 2b
+        {
+            rotateRight(&(*r)->left);
+
+            p = &(*r)->left->left;
+        }
+
+        if (p == &(*r)->right->left) // shceme 2b
+        {
+            rotateLeft(&(*r)->right);
+
+            p = &(*r)->right->right;
+        }
+
+    }&(root);
+
+    root->data = Color::Black;
+
 }
 
 int main()
 {
     bst<int, Color> rbt;
-    rbt.insert(13, Color::Black);
+
+
+    rbt.insertToRBT(15);
+    /*rbt.insert(13, Color::Black);
     rbt.insert(8, Color::Red);
     rbt.insert(11, Color::Black);
     rbt.insert(1, Color::Black);
@@ -390,7 +476,11 @@ int main()
     rbt.insert(25, Color::Black);
     rbt.insert(22, Color::Red);
     rbt.insert(27, Color::Red);
-    std::cout << rbt.isRedBlackTree();
+    std::cout << rbt.isRedBlackTree();*/
+
+
+
+
     //bst<std::string, int> t;
     //t.insert("one", 1);
     //cout << t.height() << endl;
