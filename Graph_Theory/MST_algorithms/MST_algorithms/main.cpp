@@ -3,9 +3,14 @@
 #include <fstream>
 #include <limits>
 #include "header.hpp" 
+#include <chrono>
 
 int main() {
     char strin[] = "test0.txt";
+    auto begin = std::chrono::steady_clock::now();
+    
+
+    
     for (size_t i = 1; i <= 6; i++)
     {
         std::cout << "test " << i << std::endl;
@@ -17,6 +22,12 @@ int main() {
         //std::cin >> option;
         graph.runAlgorithm(option);
         std::cout << std::endl;
+        auto end = std::chrono::steady_clock::now();
+        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+        std::cout << "The time: " << elapsed_ms.count() << " ms\n";
     }
-        return 0;
+    
+    
+
+    return 0;
 }
